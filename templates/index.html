@@ -1,0 +1,12 @@
+<!doctype html><html><head><title>Resume Skill Checker</title><link rel="stylesheet" href="{{ url_for('static',filename='style.css') }}"></head><body>
+<header><h1>Resume Skill Checker</h1><p>Compare skills in a resume with a job description.</p></header><main class="wrap">
+<section class="card"><h2>Check your resume</h2><form method="post" enctype="multipart/form-data">
+<label>Resume (.txt file)</label><input type="file" name="resume" accept=".txt" required>
+<label>Paste job description</label><textarea name="job_description" rows="7" required placeholder="Example: Python, SQL, Pandas and communication skills..."></textarea>
+<button>Analyze skills</button></form></section>
+{% if result %}<section class="card">{% if result.error %}<p class="flash">{{ result.error }}</p>{% else %}
+<h2>Result</h2><h1>{{ result.score }}% keyword match</h1><p class="muted">{{ result.note }}</p>
+<div class="grid"><div><h3>Matched skills</h3>{% for s in result.matched %}<span class="pill">{{ s }}</span> {% else %}<p>None yet</p>{% endfor %}</div>
+<div><h3>Skills to learn</h3>{% for s in result.missing %}<span class="pill">{{ s }}</span> {% else %}<p>No missing skills from this list</p>{% endfor %}</div></div>
+<p><b>Skills found:</b> {{ result.found|join(", ") }}</p>{% endif %}</section>{% endif %}
+<p class="muted">For this beginner version, save your resume text as a .txt file before uploading.</p></main></body></html>
